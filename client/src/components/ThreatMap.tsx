@@ -140,7 +140,7 @@ export default function ThreatMap({
           {/* Map visualization */}
           <div 
             ref={mapRef}
-            className="relative w-full h-full rounded-md overflow-hidden bg-background/50 glow-border"
+            className="relative w-full h-full rounded-md overflow-hidden bg-background/50 glow-border cyber-panel"
           ></div>
           
           {/* Stats overlays */}

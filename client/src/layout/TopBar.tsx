@@ -20,11 +20,11 @@ export default function TopBar({ toggleSidebar }: TopBarProps) {
   const [location, navigate] = useLocation();
   
   // Get alert count for notification badge
-  const { data: alertsData } = useQuery({
+  const { data: alertsData } = useQuery<any[]>({
     queryKey: ['/api/alerts'],
   });
   
-  const unreadAlertsCount = alertsData?.filter((alert: any) => !alert.isRead).length || 0;
+  const unreadAlertsCount = alertsData ? alertsData.filter((alert) => !alert.isRead).length : 0;
   
   // Get title based on current path
   const getPageTitle = (path: string) => {

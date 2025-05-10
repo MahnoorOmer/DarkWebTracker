@@ -14,7 +14,7 @@ export default function StatusCard({
   const isPositive = changePercentage >= 0;
   
   return (
-    <div className="card p-5 border border-neutral-dark bg-secondary rounded-md transition-transform hover:-translate-y-1 shadow-md hover:shadow-primary/5">
+    <div className="card p-5 border border-neutral-dark bg-secondary rounded-md transition-transform hover:-translate-y-1 shadow-md hover:shadow-primary/5 cyber-panel">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-muted-foreground">{title}</p>

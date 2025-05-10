@@ -28,11 +28,11 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     queryKey: ['/api/keywords'],
   });
 
-  const { data: alertsData } = useQuery({
+  const { data: alertsData } = useQuery<any[]>({
     queryKey: ['/api/alerts'],
   });
 
-  const unreadAlertsCount = alertsData?.filter((alert: any) => !alert.isRead).length || 0;
+  const unreadAlertsCount = alertsData ? alertsData.filter((alert) => !alert.isRead).length : 0;
 
   const navItems = [
     { path: "/", label: "Dashboard", icon: <LayoutDashboard className="mr-3 h-5 w-5" /> },
@@ -100,11 +100,11 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
       <div className="p-5 border-b border-neutral-dark">
         <div className="flex items-center space-x-3">
           {/* Logo */}
-          <div className="h-9 w-9 rounded-md bg-background flex items-center justify-center">
-            <RadarIcon className="text-primary h-5 w-5" />
+          <div className="h-10 w-10 rounded-md bg-background flex items-center justify-center glow-border">
+            <RadarIcon className="text-primary h-6 w-6" />
           </div>
-          <h1 className="text-xl font-mono font-bold text-white">
-            Dark<span className="text-primary">Sentry</span>
+          <h1 className="text-xl font-mono font-bold text-white glow-text">
+            Dark<span className="text-primary cyber-glitch">Sentry</span>
           </h1>
         </div>
         <p className="text-xs mt-1 opacity-70">Dark Web Intelligence Platform</p>
