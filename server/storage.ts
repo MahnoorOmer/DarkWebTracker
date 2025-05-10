@@ -5,6 +5,8 @@ import {
   threatStats, type ThreatStats, type InsertThreatStats,
   threatCategories, type ThreatCategory, type InsertThreatCategory
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 // Storage interface
 export interface IStorage {
@@ -32,153 +34,136 @@ export interface IStorage {
   // Threat Categories operations
   getThreatCategories(): Promise<ThreatCategory[]>;
   createThreatCategory(category: InsertThreatCategory): Promise<ThreatCategory>;
+
+  // Initialize database with test data if needed
+  initializeData(): Promise<void>;
 }
 
-// In-memory storage implementation
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private monitoredKeywords: Map<number, MonitoredKeyword>;
-  private alerts: Map<number, Alert>;
-  private threatStats: ThreatStats | undefined;
-  private threatCategories: Map<number, ThreatCategory>;
-  
-  private currentUserId: number;
-  private currentKeywordId: number;
-  private currentAlertId: number;
-  private currentThreatCategoryId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.monitoredKeywords = new Map();
-    this.alerts = new Map();
-    this.threatCategories = new Map();
-    
-    this.currentUserId = 1;
-    this.currentKeywordId = 1;
-    this.currentAlertId = 1;
-    this.currentThreatCategoryId = 1;
-    
-    // Initialize with some demo data
-    this.initializeData();
-  }
-
+// Database implementation of storage
+export class DatabaseStorage implements IStorage {
   // User operations
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
 
   // Monitored Keywords operations
   async getMonitoredKeywords(): Promise<MonitoredKeyword[]> {
-    return Array.from(this.monitoredKeywords.values());
+    return await db.select().from(monitoredKeywords);
   }
 
   async getMonitoredKeywordsByUserId(userId: number): Promise<MonitoredKeyword[]> {
-    return Array.from(this.monitoredKeywords.values()).filter(
-      (keyword) => keyword.userId === userId,
-    );
+    return await db.select().from(monitoredKeywords).where(eq(monitoredKeywords.userId, userId));
   }
 
   async createMonitoredKeyword(insertKeyword: InsertMonitoredKeyword): Promise<MonitoredKeyword> {
-    const id = this.currentKeywordId++;
-    const createdAt = new Date();
-    const keyword: MonitoredKeyword = { ...insertKeyword, id, createdAt };
-    this.monitoredKeywords.set(id, keyword);
+    const [keyword] = await db.insert(monitoredKeywords).values(insertKeyword).returning();
     return keyword;
   }
 
   async deleteMonitoredKeyword(id: number): Promise<boolean> {
-    return this.monitoredKeywords.delete(id);
+    const result = await db.delete(monitoredKeywords).where(eq(monitoredKeywords.id, id)).returning();
+    return result.length > 0;
   }
 
   // Alerts operations
   async getAlerts(): Promise<Alert[]> {
-    return Array.from(this.alerts.values()).sort((a, b) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+    return await db.select().from(alerts).orderBy(alerts.createdAt);
   }
 
   async getAlert(id: number): Promise<Alert | undefined> {
-    return this.alerts.get(id);
+    const [alert] = await db.select().from(alerts).where(eq(alerts.id, id));
+    return alert;
   }
 
   async createAlert(insertAlert: InsertAlert): Promise<Alert> {
-    const id = this.currentAlertId++;
-    const createdAt = new Date();
-    const alert: Alert = { ...insertAlert, id, createdAt, isRead: false };
-    this.alerts.set(id, alert);
+    const [alert] = await db.insert(alerts)
+      .values({ ...insertAlert, isRead: false })
+      .returning();
     return alert;
   }
 
   async markAlertAsRead(id: number): Promise<boolean> {
-    const alert = this.alerts.get(id);
-    if (!alert) return false;
-    
-    alert.isRead = true;
-    this.alerts.set(id, alert);
-    return true;
+    const result = await db.update(alerts)
+      .set({ isRead: true })
+      .where(eq(alerts.id, id))
+      .returning();
+    return result.length > 0;
   }
 
   // Threat Stats operations
   async getThreatStats(): Promise<ThreatStats | undefined> {
-    return this.threatStats;
+    const [stats] = await db.select().from(threatStats);
+    return stats;
   }
 
   async updateThreatStats(insertStats: InsertThreatStats): Promise<ThreatStats> {
-    const lastUpdated = new Date();
+    const existingStats = await this.getThreatStats();
     
-    if (this.threatStats) {
-      this.threatStats = { ...this.threatStats, ...insertStats, lastUpdated };
+    if (existingStats) {
+      const [updatedStats] = await db.update(threatStats)
+        .set({ ...insertStats, lastUpdated: new Date() })
+        .where(eq(threatStats.id, existingStats.id))
+        .returning();
+      return updatedStats;
     } else {
-      this.threatStats = { ...insertStats, id: 1, lastUpdated };
+      const [newStats] = await db.insert(threatStats)
+        .values({ ...insertStats, lastUpdated: new Date() })
+        .returning();
+      return newStats;
     }
-    
-    return this.threatStats;
   }
 
   // Threat Categories operations
   async getThreatCategories(): Promise<ThreatCategory[]> {
-    return Array.from(this.threatCategories.values());
+    return await db.select().from(threatCategories);
   }
 
   async createThreatCategory(insertCategory: InsertThreatCategory): Promise<ThreatCategory> {
-    const id = this.currentThreatCategoryId++;
-    const category: ThreatCategory = { ...insertCategory, id };
-    this.threatCategories.set(id, category);
+    const [category] = await db.insert(threatCategories)
+      .values(insertCategory)
+      .returning();
     return category;
   }
 
   // Initialize sample data for the application
-  private async initializeData() {
+  async initializeData(): Promise<void> {
+    // Check if we already have data
+    const userCount = await db.select({ count: users.id }).from(users);
+    if (userCount.length > 0 && userCount[0].count) {
+      console.log("Database already has data, skipping initialization");
+      return;
+    }
+
+    console.log("Initializing database with sample data");
+    
     // Create default user
-    await this.createUser({
+    const [user] = await db.insert(users).values({
       username: "analyst",
       password: "password",
       role: "analyst"
-    });
+    }).returning();
 
     // Create sample monitored keywords
     const keywords = [
-      { keyword: "cybercrime", status: "active", frequency: "24h", userId: 1 },
-      { keyword: "data breach", status: "active", frequency: "12h", userId: 1 },
-      { keyword: "credit cards", status: "active", frequency: "7d", userId: 1 },
-      { keyword: "company name", status: "active", frequency: "3d", userId: 1 }
+      { keyword: "cybercrime", status: "active", frequency: "24h", userId: user.id },
+      { keyword: "data breach", status: "active", frequency: "12h", userId: user.id },
+      { keyword: "credit cards", status: "active", frequency: "7d", userId: user.id },
+      { keyword: "company name", status: "active", frequency: "3d", userId: user.id }
     ];
     
     for (const keyword of keywords) {
-      await this.createMonitoredKeyword(keyword);
+      await db.insert(monitoredKeywords).values(keyword);
     }
 
     // Create sample alerts
@@ -216,11 +201,11 @@ export class MemStorage implements IStorage {
     ];
     
     for (const alert of sampleAlerts) {
-      await this.createAlert(alert);
+      await db.insert(alerts).values({ ...alert, isRead: false });
     }
 
     // Create threat stats
-    await this.updateThreatStats({
+    await db.insert(threatStats).values({
       activeThreats: 37,
       dataLeaks: 12,
       credentialsFound: 128,
@@ -230,7 +215,8 @@ export class MemStorage implements IStorage {
         dataLeaks: 3,
         credentialsFound: 28,
         monitoredKeywords: 0
-      }
+      },
+      lastUpdated: new Date()
     });
 
     // Create threat categories
@@ -244,9 +230,11 @@ export class MemStorage implements IStorage {
     ];
     
     for (const category of categories) {
-      await this.createThreatCategory(category);
+      await db.insert(threatCategories).values(category);
     }
+    
+    console.log("Database initialized successfully");
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
