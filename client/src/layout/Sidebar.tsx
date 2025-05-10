@@ -116,7 +116,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             {navItems.map((item) => (
               <li key={item.path}>
                 <Link href={item.path}>
-                  <a
+                  <span
                     className={cn(
                       "flex items-center p-3 rounded-md transition-colors",
                       location === item.path
@@ -131,7 +131,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                         {item.badge}
                       </span>
                     )}
-                  </a>
+                  </span>
                 </Link>
               </li>
             ))}

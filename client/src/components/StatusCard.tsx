@@ -39,8 +39,11 @@ export default function StatusCard({
       <div className="mt-4">
         <Progress 
           value={progressPercentage} 
-          className="h-1 w-full bg-primary/10"
-          indicatorClassName={`bg-${progressColor}`}
+          className={`h-1 w-full bg-primary/10`}
+          // Custom styling applied via CSS for the indicator
+          style={{
+            '--progress-color': `var(--${progressColor})`
+          } as React.CSSProperties}
         />
       </div>
     </div>

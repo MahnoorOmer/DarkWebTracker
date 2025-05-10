@@ -6,6 +6,8 @@ import ThreatMap from "@/components/ThreatMap";
 import AlertsList from "@/components/AlertsList";
 import ThreatCategoriesChart from "@/components/ThreatCategoriesChart";
 import DarkWebSearch from "@/components/DarkWebSearch";
+import SourcesDisplay from "@/components/SourcesDisplay";
+import WebScrapeTools from "@/components/WebScrapeTools";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ThreatStatsData } from "@/lib/types";
 import { Helmet } from "react-helmet";
@@ -121,6 +123,15 @@ export default function Dashboard() {
           
           {/* Search and Monitor */}
           <DarkWebSearch />
+        </div>
+        
+        {/* New Dark Web Sources & Scraping Tools Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          {/* Sources being monitored */}
+          <SourcesDisplay />
+          
+          {/* Web Scraping Tools */}
+          <WebScrapeTools />
         </div>
       </div>
     </>

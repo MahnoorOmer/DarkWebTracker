@@ -65,6 +65,11 @@
 }
 
 @layer components {
+  /* Progress bar custom styles */
+  .progress-indicator {
+    background-color: var(--progress-color, hsl(var(--primary)));
+  }
+  
   /* Cyberpunk-inspired utility classes */
   .grid-pattern {
     background-size: 30px 30px;
