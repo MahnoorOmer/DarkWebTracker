@@ -1,18 +1,18 @@
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "../components/ui/toaster";
+import { TooltipProvider } from "../components/ui/tooltip";
 import { useState } from "react";
-import Sidebar from "@/layout/Sidebar";
-import TopBar from "@/layout/TopBar";
-import Dashboard from "@/pages/Dashboard";
-import Search from "@/pages/Search";
-import Monitoring from "@/pages/Monitoring";
-import Reports from "@/pages/Reports";
-import Alerts from "@/pages/Alerts";
-import NotFound from "@/pages/not-found";
-import { ThemeProvider } from "@/components/ui/theme-provider";
+import Sidebar from "../layout/Sidebar";
+import TopBar from "../layout/TopBar";
+import Dashboard from "../pages/Dashboard";
+import Search from "../pages/Search";
+import Monitoring from "../pages/Monitoring";
+import Reports from "../pages/Reports";
+import Alerts from "../pages/Alerts";
+import NotFound from "../pages/not-found";
+import { ThemeProvider } from "../components/ui/theme-provider";
 
 function Router() {
   const [sidebarOpen, setSidebarOpen] = useState(true);

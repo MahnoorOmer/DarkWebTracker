@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Shield, FileText, Key, Radar, AlertCircle } from "lucide-react";
-import StatusCard from "@/components/StatusCard";
-import ThreatMap from "@/components/ThreatMap";
-import AlertsList from "@/components/AlertsList";
-import ThreatCategoriesChart from "@/components/ThreatCategoriesChart";
-import DarkWebSearch from "@/components/DarkWebSearch";
-import SourcesDisplay from "@/components/SourcesDisplay";
-import WebScrapeTools from "@/components/WebScrapeTools";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ThreatStatsData } from "@/lib/types";
+import StatusCard from "../components/StatusCard";
+import ThreatMap from "../components/ThreatMap";
+import AlertsList from "../components/AlertsList";
+import ThreatCategoriesChart from "../components/ThreatCategoriesChart";
+import DarkWebSearch from "../components/DarkWebSearch";
+import SourcesDisplay from "../components/SourcesDisplay";
+import WebScrapeTools from "../components/WebScrapeTools";
+import { Skeleton } from "../components/ui/skeleton";
+import { ThreatStatsData } from "../lib/types";
 import { Helmet } from "react-helmet";
 
 export default function Dashboard() {

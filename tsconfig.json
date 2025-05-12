@@ -4,20 +4,21 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
-    "noEmit": true,
+    "noEmit": false,
     "module": "ESNext",
     "strict": true,
     "lib": ["esnext", "dom", "dom.iterable"],
     "jsx": "preserve",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "baseUrl": ".",
-    "types": ["node", "vite/client"],
+    "types": ["node", "pg"],
     "paths": {
-      "@/*": ["./client/src/*"],
+      "../*": ["./client/src/*"],
       "@shared/*": ["./shared/*"]
-    }
+    },
+    "outDir": "./dist",  // Output JS files to the 'dist' folder
+    "allowJs": true      // Allow JavaScript files in the source directories if necessary
   }
 }

@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
-import { Progress } from "@/components/ui/progress";
-import { StatusCardProps } from "@/lib/types";
+import { cn } from "../lib/utils";
+import { Progress } from "../components/ui/progress";
+import { StatusCardProps } from "../lib/types";
 
 export default function StatusCard({
   title,

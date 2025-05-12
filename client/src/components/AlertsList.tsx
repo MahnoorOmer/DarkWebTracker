@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { ScrollArea } from "../components/ui/scroll-area";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient } from "@/lib/queryClient";
-import { AlertItem } from "@/lib/types";
-import { apiRequest } from "@/lib/queryClient";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
+import { queryClient } from "../lib/queryClient";
+import { AlertItem } from "../lib/types";
+import { apiRequest } from "../lib/queryClient";
+import { Skeleton } from "../components/ui/skeleton";
+import { cn } from "../lib/utils";
 import {
   AlertCircle,
   FileSearch,

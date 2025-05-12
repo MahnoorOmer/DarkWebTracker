@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { queryClient } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { AlertItem } from "@/lib/types";
+import { apiRequest } from "../lib/queryClient";
+import { queryClient } from "../lib/queryClient";
+import { useToast } from "../hooks/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { ScrollArea } from "../components/ui/scroll-area";
+import { Badge } from "../components/ui/badge";
+import { Skeleton } from "../components/ui/skeleton";
+import { AlertItem } from "../lib/types";
 import { 
   AlertCircle, 
   FileSearch, 
@@ -22,7 +22,7 @@ import {
   CheckCircle,
   Filter
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 import { Helmet } from "react-helmet";
 
 export default function Alerts() {

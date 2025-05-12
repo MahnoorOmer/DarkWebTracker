@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 import { 
   RadarIcon, 
   LayoutDashboard, 
@@ -12,9 +12,9 @@ import {
   LogOut 
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { MonitoredKeyword } from "@/lib/types";
+import { ScrollArea } from "../components/ui/scroll-area";
+import { Separator } from "../components/ui/separator";
+import { MonitoredKeyword } from "../lib/types";
 
 interface SidebarProps {
   isOpen: boolean;
