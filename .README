@@ -1,0 +1,30 @@
+🔒 Dark Web Threat Monitoring System
+
+This project is a backend system for monitoring security threats from the dark web. It allows users to register keywords, receive alerts about data leaks or threats, and track threat statistics in real-time. 🚀 Features
+
+User authentication with roles (analyst, admin, etc.)
+
+Monitored keywords with customizable frequency
+
+Alert system with risk levels and types
+
+Dashboard with threat stats and categories
+
+Database designed with PostgreSQL using Drizzle ORM
+
+📦 Tech Stack
+
+Backend: Node.js + Express
+
+Database: PostgreSQL
+
+ORM: Drizzle ORM
+
+Validation: Zod
+
+Scraping Layer: (Pluggable Python or API-based scraper for Tor/Dark web)
+
+🗃️ Tables
+
+users, monitored_keywords, alerts, threat_stats, threat_categories
+
