@@ -57,26 +57,6 @@ DarkWebTracer is a cybersecurity intelligence tool that monitors, searches, and 
 - Automated keyword suggestions based on user role
 
 
-## 🧠 System Architecture
-
-
-```mermaid
-flowchart TD
-    A[Dark Web Sources\n(Onion Forums, Marketplaces)] --> B[Scraper\n(Python + BeautifulSoup)]
-    B --> C[Raw Data Storage\n(JSON/CSV)]
-    C --> D[Preprocessing\n(Filtering + Cleaning)]
-    D --> E[Keyword Extraction\n(Threats, Tools, TTPs)]
-    E --> F[API Endpoint\n(Next.js API Route)]
-    F --> G[Dashboard Frontend\n(React + Recharts)]
-
-    subgraph Frontend
-        G
-    end
-
-    subgraph Backend
-        B --> C --> D --> E --> F
-    end
-
 
 ---
 
