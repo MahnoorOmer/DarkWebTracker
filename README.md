@@ -59,14 +59,15 @@ DarkWebTracer is a cybersecurity intelligence tool that monitors, searches, and 
 
 ## 🧠 System Architecture
 
+
 ```mermaid
 flowchart TD
-    A[🕸️ Dark Web Sources<br>(Onion Forums, Marketplaces)] --> B[🧾 Scraper<br>(Python + BeautifulSoup)]
-    B --> C[📄 Raw Data Storage<br>(JSON/CSV)]
-    C --> D[⚙️ Preprocessing<br>(Filtering + Cleaning)]
-    D --> E[🤖 Keyword Extraction<br>(Threats, Tools, TTPs)]
-    E --> F[📊 API Endpoint<br>Next.js API Route (/api/categories)]
-    F --> G[💡 Dashboard Frontend<br>React + Recharts]
+    A[Dark Web Sources\n(Onion Forums, Marketplaces)] --> B[Scraper\n(Python + BeautifulSoup)]
+    B --> C[Raw Data Storage\n(JSON/CSV)]
+    C --> D[Preprocessing\n(Filtering + Cleaning)]
+    D --> E[Keyword Extraction\n(Threats, Tools, TTPs)]
+    E --> F[API Endpoint\n(Next.js API Route)]
+    F --> G[Dashboard Frontend\n(React + Recharts)]
 
     subgraph Frontend
         G
@@ -75,14 +76,6 @@ flowchart TD
     subgraph Backend
         B --> C --> D --> E --> F
     end
-
-    style A fill=#0f172a,color=white
-    style B fill=#1e293b,color=white
-    style C fill=#334155,color=white
-    style D fill=#475569,color=white
-    style E fill=#64748b,color=white
-    style F fill=#4b5563,color=white
-    style G fill=#22d3ee,color=black
 
 
 ---
